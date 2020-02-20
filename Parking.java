@@ -217,8 +217,8 @@ public class Parking {
     static class ParkingLot {
         Map<String, Floor> floors = new HashMap<>();
         
-        public void addFloor(String name,Floor floor) {
-            floors.put(name, floor);
+        public void addFloor(Floor floor) {
+            floors.put(floor.getName(), floor);
         }
 
         public Map<String, Floor> getFloors() {
@@ -241,9 +241,12 @@ public class Parking {
             this.floors = floors;
         }
 
+        public ParkingLot(){
+
+        }
+
         public int getTotalFreeSpots(){
             int total = 0;
-            int sizeS, sizeM, sizeL,  sizeXL = 0;
             for(Map.Entry<String, Floor> floor : floors.entrySet()) { 
                 for(Map.Entry<Size, List<Spot>> spots : floor.getValue().getSpots().entrySet()) {
                     total += spots.getValue().stream().filter(s-> s.free).count();
@@ -257,16 +260,16 @@ public class Parking {
     public static void main(String [] args) throws ParkingException {
         Floor firstFloor = new Floor("1st");
         Floor secondFloor = new Floor("2nd");
-        firstFloor.addSpots(Size.M, 1);
+        firstFloor.addSpots(Size.M, 2);
+        firstFloor.addSpots(Size.S, 10);
         secondFloor.addSpots(Size.S, 1);
-        Map<String, Floor> floors = new HashMap<>();
-        floors.put(firstFloor.getName(), firstFloor);
-        floors.put(secondFloor.getName(), secondFloor);
         Vehicle bike1 = new Bike("LN2040", "BLUE");
         Vehicle corolla1 = new Corolla("AB2310", "BLACK");
         Vehicle corolla2 = new Corolla("CA232", "WHITE");
 
-        ParkingLot parking = new ParkingLot(floors);
+        ParkingLot parking = new ParkingLot();
+        parking.addFloor(firstFloor);
+        parking.addFloor(secondFloor);
         System.out.println("Parking spots free: "+parking.getTotalFreeSpots());
         System.out.println(parking.parkCar(bike1, secondFloor).toString());
         System.out.println(parking.parkCar(corolla1, firstFloor).toString());
