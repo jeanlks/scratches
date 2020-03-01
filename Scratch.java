@@ -116,6 +116,41 @@ public class Scratch {
         return toys;
     }
 
+    static int minDays(List<List<Integer> > grid) {
+
+        Queue<int[]> queue = new LinkedList<>();
+        int target = grid.size() * grid.get(0).size();
+        int count = 0;
+        int res = 0;
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid.get(0).size(); j++) {
+                if(grid.get(i).get(j) == 1){
+                    queue.add(new int[]{i, j});
+                    count++;
+                }
+            }
+        }
+        int dirs[][] = {{1,0}, {-1,0}, {0,-1}, {1,0}};
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            if(count == target) return res;
+            for(int i = 0; i < size;i++){
+                int[] curr = queue.remove();
+                for(int[] dir : dirs){
+                    int ci = curr[0] + dir[0];
+                    int cj = curr[1] + dir[1];
+                    if(ci >= 0 && ci < grid.size() && cj >= 0 && cj < grid.get(0).size() && grid.get(ci).get(cj) == 0){
+                        count++;
+                        queue.add(new int[]{ci, cj});
+                        grid.get(ci).set(cj, 1);
+                    }
+                }
+            }
+            res++;
+        }
+        return -1;
+    }
+
     static int maxSubArraySum(int a[]) {
         int currentSum = 0;
         int max = Integer.MIN_VALUE;
@@ -223,12 +258,47 @@ public class Scratch {
             return results;
       }
 
+      public static int largestSquare(int[][] matrix){
+        int result =0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if(i  == 0 || j ==0) { 
+                } else if(matrix[i][j] == 1 ){
+                    matrix[i][j] = Math.min(Math.min(matrix[i][j-1],matrix[i-1][j-1]),  matrix[i-1][j]) + 1;
+                }
+                if( matrix[i][j] > result){
+                    result =  matrix[i][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    public static int minNumberOfCoinsForChange(int n, int[] denoms) {
+        int numOfCoins[] = new int[n + 1];
+          Arrays.fill(numOfCoins, Integer.MAX_VALUE);
+          numOfCoins[0] = 0; 
+          for(int denom : denoms) {
+                  for(int i = 0; i<n + 1; i++){
+                      if(denom  <= i){
+                          if(numOfCoins[i - denom] == Integer.MAX_VALUE){
+                              numOfCoins[i] = Math.min(numOfCoins[i - denom], numOfCoins[i]);
+                          } else {
+                              numOfCoins[i] = Math.min(numOfCoins[i - denom] + 1, numOfCoins[i]);				
+                          }
+                      }
+                  }
+          }
+      
+      return numOfCoins[n] != Integer.MAX_VALUE ? numOfCoins[n]: -1;
+    }
+
     public static void main(String[] args) {
-        // List<List<Integer>> servers = new ArrayList<>();
-        // servers.add(Arrays.asList(0, 1, 1));
-        // servers.add(Arrays.asList(0, 1, 1));
-        // servers.add(Arrays.asList(0, 1, 1));
-        // System.out.println(minDays(servers));
+        List<List<Integer>> servers = new ArrayList<>();
+        servers.add(Arrays.asList(0, 0, 1));
+        servers.add(Arrays.asList(0, 1, 1));
+        servers.add(Arrays.asList(0, 1, 1));
+        System.out.println(minDays(servers));
 
         // ArrayList<String> quotes = getHugeListOfQuotes();
         // ArrayList<String> toys = getHugeListOfToys();

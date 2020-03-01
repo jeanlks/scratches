@@ -82,6 +82,17 @@ public class Bst {
         return node;
     }
 
+    public boolean validateBst(){
+       return validateBst(this.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public static boolean validateBst(Node node, int minValue, int maxValue){
+        if(node.val < minValue || node.val >= maxValue) return false;
+        if(node.left != null && !validateBst(node.left, minValue, node.val));
+        if(node.right != null && !validateBst(node.right, node.val, maxValue));
+        return true;
+    }
+
     public int getMinValue(Node node){
         Node curr = node;
         while(curr.left != null){
@@ -116,9 +127,10 @@ public class Bst {
         bst.add(150);
         bst.delete(40);
       //  bst.inOrder();
-        System.out.println(bst.getMinValue());
-        System.out.println("Altura: "+bst.getHeight());
-        System.out.println(bst.contains(50));
+        System.out.println("Minimum value: "+bst.getMinValue());
+        System.out.println("Height: "+bst.getHeight());
+        System.out.println("Does it contains 50: "+ bst.contains(50));
+        System.out.println("Is it a valid bst: " +bst.validateBst());
         // 40 - 50 - 60 - 150 - 200 - 100
     }
 }
