@@ -117,6 +117,18 @@ public class Bst {
         inOrder(node.right);
     }
 
+    public boolean hasPathSum(int sum){
+        return hasPathSum(this.root, sum);
+    }
+
+    public boolean hasPathSum(Node node, int sum){
+        if(node == null)
+            return (sum == 0);
+        int subSum = sum - node.val;
+        return(hasPathSum(node.left, subSum) || hasPathSum(node.right, subSum));
+    }
+
+
     public static void main(String [] args) { 
         Bst bst = new Bst();
         bst.add(100);
@@ -131,6 +143,7 @@ public class Bst {
         System.out.println("Height: "+bst.getHeight());
         System.out.println("Does it contains 50: "+ bst.contains(50));
         System.out.println("Is it a valid bst: " +bst.validateBst());
+        System.out.println("has path sum to 210: "+bst.hasPathSum(210));
         // 40 - 50 - 60 - 150 - 200 - 100
     }
 }
