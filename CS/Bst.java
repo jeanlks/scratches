@@ -62,19 +62,21 @@ public class Bst {
         delete(this.root, val);
     }
 
+
+
     public Node delete(Node node, int val) { 
         if(node == null)
             return node;
-        if(val < node.val){
+        if(val > node.val) {
+            node.right = delete(node.right, val);
+        } else if( val < node.val) {
             node.left = delete(node.left, val);
-        } else if(val > node.val) {
-            node.right = delete(node.right,val);
         } else { 
-            if(node.left == null){ 
+            if(node.left == null){
                 return node.right;
-            } else if (node.right == null) {
+            } else if(node.right == null){
                 return node.left;
-            } else { 
+            } else {
                 node.val = getMinValue(node.right);
                 node.right = delete(node.right, node.val);
             }
