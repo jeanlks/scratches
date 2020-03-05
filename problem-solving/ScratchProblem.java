@@ -2,7 +2,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
+import java.util.stream.*;
 public class ScratchProblem {
 
     public static ArrayList<String> popularNToys(int numToys, int topToys, List<String> toys, int numQuotes,
@@ -287,21 +287,45 @@ public class ScratchProblem {
       return numOfCoins[n] != Integer.MAX_VALUE ? numOfCoins[n]: -1;
     }
 
-    public static void main(String[] args) {
-        List<List<Integer>> servers = new ArrayList<>();
-        servers.add(Arrays.asList(0, 0, 1));
-        servers.add(Arrays.asList(0, 1, 1));
-        servers.add(Arrays.asList(0, 1, 1));
-        System.out.println(minDays(servers));
 
-        ArrayList<String> quotes = getHugeListOfQuotes();
-        ArrayList<String> toys = getHugeListOfToys();
-        long startTime = System.currentTimeMillis();
-        System.out.println(popularNToys(3, 3, toys, 5, quotes));
-        System.out.println(popularNToysWithTrie(3, 2, toys, 5, quotes));
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println("time to perform operation: " + elapsedTime);
+    public static int numberOfWaysToMakeChange(int n, int[] denoms) {
+        int[] ways = new int[n + 1];
+            ways[0] = 1;
+            for(int denom: denoms) { 
+                for(int i = 0; i < n + 1; i++) { 
+                    if(denom <= i)
+                        ways[i] += ways[ i - denom];
+                }
+            }
+            return ways[n];
+      }
+
+      public static int[] minRewards(int[] scores) {
+        int[] results = new int[scores.length];
+            Arrays.fill(results,1);
+            for(int i = 1; i < scores.length; i++){
+                if(scores[i] > scores[i -1]) results[i] = results[i - 1] + 1;
+            }
+            for(int i = scores.length - 2; i >= 0; i--){
+                if(scores[i] > scores[i + 1]) results[i] = Math.max(results[i], results[i + 1] + 1);
+            }
+        return results;
+      }
+    public static void main(String[] args) {
+        // List<List<Integer>> servers = new ArrayList<>();
+        // servers.add(Arrays.asList(0, 0, 1));
+        // servers.add(Arrays.asList(0, 1, 1));
+        // servers.add(Arrays.asList(0, 1, 1));
+        // System.out.println(minDays(servers));
+
+        // ArrayList<String> quotes = getHugeListOfQuotes();
+        // ArrayList<String> toys = getHugeListOfToys();
+        // long startTime = System.currentTimeMillis();
+        // System.out.println(popularNToys(3, 3, toys, 5, quotes));
+        // System.out.println(popularNToysWithTrie(3, 2, toys, 5, quotes));
+        // long stopTime = System.currentTimeMillis();
+        // long elapsedTime = stopTime - startTime;
+        // System.out.println("time to perform operation: " + elapsedTime);
         ////////////////////
 
         // int [] a = {-2, -3, 4, -1, -2, 1, 5, -3};
@@ -312,8 +336,8 @@ public class ScratchProblem {
         //int[] search = searchInSortedMatrix(matrix, 4);
         //System.out.println("[" + search[0] + "," + search[1] + "]");
        // List<Integer[]> res = threeNumberSum(new int[]{4,5,6,20,3,2,4,1}, 8);
-       
-
-        System.out.println(Arrays.toString(largestRange(new int[]{23,1,4,2,3,5,10,12})));
+       // System.out.println(Arrays.toString(largestRange(new int[]{23,1,4,2,3,5,10,12})));
+       //System.out.println(numberOfWaysToMakeChange(4, new int[]{2,1}));
+       System.out.println(Arrays.toString(minRewards(new int[]{5,2,3})));
     }
 }

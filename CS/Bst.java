@@ -62,36 +62,51 @@ public class Bst {
         delete(this.root, val);
     }
 
-
-
-    public Node delete(Node node, int val) { 
+    public Node delete(Node node, int val) {
         if(node == null)
             return node;
-        if(val > node.val) {
+        if(val > node.val){
             node.right = delete(node.right, val);
-        } else if( val < node.val) {
+        } else if(val < node.val) {
             node.left = delete(node.left, val);
         } else { 
             if(node.left == null){
                 return node.right;
-            } else if(node.right == null){
+            } else if(node.right ==null){
                 return node.left;
-            } else {
+            } else { 
                 node.val = getMinValue(node.right);
                 node.right = delete(node.right, node.val);
             }
         }
         return node;
+    } 
+
+    public void invertTree(){
+        this.invertTree(this.root);
+    }
+    
+    public void invertTree(Node node){
+        if(node == null) return;
+        swapNodePlaces(node);
+        invertTree(node.left);
+        invertTree(node.right);
     }
 
-    public boolean validateBst(){
+    private void swapNodePlaces(Node node) {
+        Node temp = node.right;
+        node.right = node.left;
+        node.left = temp;
+    }
+
+    public boolean validateBst() {
        return validateBst(this.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     public static boolean validateBst(Node node, int minValue, int maxValue){
         if(node.val < minValue || node.val >= maxValue) return false;
-        if(node.left != null && !validateBst(node.left, minValue, node.val));
-        if(node.right != null && !validateBst(node.right, node.val, maxValue));
+        if(node.left != null && !validateBst(node.left, minValue, node.val)) return false;
+        if(node.right != null && !validateBst(node.right, node.val, maxValue)) return false;
         return true;
     }
 
@@ -146,6 +161,9 @@ public class Bst {
         System.out.println("Does it contains 50: "+ bst.contains(50));
         System.out.println("Is it a valid bst: " +bst.validateBst());
         System.out.println("has path sum to 210: "+bst.hasPathSum(210));
+        System.out.println("Inverting tree");
+        bst.invertTree();
+        System.out.println("Should not be valid anymore: "+bst.validateBst());
         // 40 - 50 - 60 - 150 - 200 - 100 
     }
 }
