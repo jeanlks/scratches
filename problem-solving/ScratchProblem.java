@@ -311,6 +311,46 @@ public class ScratchProblem {
             }
         return results;
       }
+
+    public static List<List<Integer>> getPermutations(List<Integer> array) { 
+        List<List<Integer>> permutations = new ArrayList<>();
+        getPermutations(array, new ArrayList<>(), permutations);
+        return permutations;
+    }
+    
+    private static void getPermutations(
+        List<Integer> array, List currentPermutation, List<List<Integer>> permutations) {
+        if(array.size() == 0 && currentPermutation .size() > 0){
+            System.out.println(currentPermutation);
+            permutations.add(currentPermutation);
+        } else {
+            for (int i = 0; i < array.size(); i++) {
+                List<Integer> newArray = new ArrayList<Integer>(array);
+                newArray.remove(i);
+                List<Integer> newPermutation = new ArrayList<Integer>(currentPermutation);
+                newPermutation.add(array.get(i));
+                getPermutations(newArray, newPermutation, permutations);
+            }
+        }
+    }
+
+    public static void customPerm(List<Integer> array) { 
+        customPerm(array, new ArrayList<Integer>());
+    }
+
+    public static void customPerm(List<Integer> array, List<Integer> currentPerm) { 
+      if(array.size() == 0 && currentPerm.size() > 0){
+          System.out.println(currentPerm);
+      }
+      for (int i = 0; i < array.size(); i++) {
+         List<Integer> perm = new ArrayList<>(currentPerm);
+         perm.add(array.get(i));
+         List<Integer> newArray = new ArrayList<>(array);
+         newArray.remove(i);
+         customPerm(newArray, perm);
+      }
+    }
+
     public static void main(String[] args) {
         // List<List<Integer>> servers = new ArrayList<>();
         // servers.add(Arrays.asList(0, 0, 1));
@@ -338,6 +378,8 @@ public class ScratchProblem {
        // List<Integer[]> res = threeNumberSum(new int[]{4,5,6,20,3,2,4,1}, 8);
        // System.out.println(Arrays.toString(largestRange(new int[]{23,1,4,2,3,5,10,12})));
        //System.out.println(numberOfWaysToMakeChange(4, new int[]{2,1}));
-       System.out.println(Arrays.toString(minRewards(new int[]{5,2,3})));
+       //System.out.println(Arrays.toString(minRewards(new int[]{5,2,3})));
+       //getPermutations(new  ArrayList<Integer>(Arrays.asList(1,2,3)));
+       customPerm(new  ArrayList<Integer>(Arrays.asList(1,2,3)));
     }
 }
