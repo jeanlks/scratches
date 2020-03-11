@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "pm2": "^4.2.3",
     "rxjs": "^6.5.4"
   }
 }

@@ -109,38 +109,37 @@ public class ScratchProblem {
         }
         return toys;
     }
-
-    static int minDays(List<List<Integer> > grid) {
-
+    static int minDays(List<List<Integer>> grid){
+        int ans = 0;
+        int targetUpdate = grid.size() * grid.get(0).size();
+        int updated = 0;
         Queue<Integer[]> queue = new LinkedList<>();
-        int target = grid.size() * grid.get(0).size();
-        int count = 0;
-        int res = 0;
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid.get(0).size(); j++) {
                 if(grid.get(i).get(j) == 1){
-                    queue.add(new Integer[]{i, j});
-                    count++;
+                    updated++;
+                    queue.add(new Integer[]{i,j});
                 }
             }
         }
-        int dirs[][] = {{1,0}, {-1,0}, {0,-1}, {1,0}};
+
         while(!queue.isEmpty()){
             int size = queue.size();
-            if(count == target) return res;
-            for(int i = 0; i < size;i++){
+            if(targetUpdate == updated) return ans;
+            int dirs[][] = {{1,0},{0,1},{-1,0},{0,-1}};
+            for (int i = 0; i < size; i++) {
                 Integer[] curr = queue.remove();
                 for(int[] dir : dirs){
                     int ci = curr[0] + dir[0];
                     int cj = curr[1] + dir[1];
-                    if(ci >= 0 && ci < grid.size() && cj >= 0 && cj < grid.get(0).size() && grid.get(ci).get(cj) == 0){
-                        count++;
-                        queue.add(new Integer[]{ci, cj});
+                    if(ci >= 0 && cj >= 0 && ci < grid.size() && cj < grid.get(ci).size() && grid.get(ci).get(cj) == 0){
+                        updated++;
                         grid.get(ci).set(cj, 1);
+                        queue.add(new Integer[]{ci, cj});
                     }
                 }
             }
-            res++;
+            ans++;
         }
         return -1;
     }
@@ -331,11 +330,11 @@ public class ScratchProblem {
     }
 
     public static void main(String[] args) {
-        // List<List<Integer>> servers = new ArrayList<>();
-        // servers.add(Arrays.asList(0, 0, 1));
-        // servers.add(Arrays.asList(0, 1, 1));
-        // servers.add(Arrays.asList(0, 1, 1));
-        // System.out.println(minDays(servers));
+         List<List<Integer>> servers = new ArrayList<>();
+         servers.add(Arrays.asList(0, 0, 1));
+         servers.add(Arrays.asList(0, 1, 1));
+         servers.add(Arrays.asList(0, 1, 1));
+         System.out.println("Number of days to update servers: "+minDays(servers));
 
         // ArrayList<String> quotes = getHugeListOfQuotes();
         // ArrayList<String> toys = getHugeListOfToys();
