@@ -328,14 +328,51 @@ public class ScratchProblem {
           getPermutations(newArr, perm);
         }
     }
+    public static void quickSort(int arr[]){
+        quickSort(arr, 0, arr.length - 1);
+    }
 
-    public static void main(String[] args) {
+    public static void quickSort(int arr[], int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+     
+            quickSort(arr, begin, partitionIndex-1);
+            quickSort(arr, partitionIndex+1, end);
+        }
+    }
+
+    private static int partition(int arr[], int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin-1);
+     
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+     
+                swap(i, j, arr);
+            }
+        }
+     
+        swap(i+1, end, arr);
+     
+        return i+1;
+    }
+
+    public static void swap(int i, int j, int[] array) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+     public static void main(String[] args) {
          List<List<Integer>> servers = new ArrayList<>();
          servers.add(Arrays.asList(0, 0, 1));
          servers.add(Arrays.asList(0, 1, 1));
          servers.add(Arrays.asList(0, 1, 1));
          System.out.println("Number of days to update servers: "+minDays(servers));
-
+         int[] array = {2,7,5,3};
+         quickSort(array);
+         System.out.println(Arrays.toString(array));
         // ArrayList<String> quotes = getHugeListOfQuotes();
         // ArrayList<String> toys = getHugeListOfToys();
         // long startTime = System.currentTimeMillis();
@@ -358,7 +395,7 @@ public class ScratchProblem {
        //System.out.println(numberOfWaysToMakeChange(4, new int[]{2,1}));
        //System.out.println(Arrays.toString(minRewards(new int[]{5,2,3})));
        //getPermutations(new  ArrayList<Integer>(Arrays.asList(1,2,3)));
-       getPermutations(new  ArrayList<Integer>(Arrays.asList(1,2,3)));
+      // getPermutations(new  ArrayList<Integer>(Arrays.asList(1,2,3)));
        
     }
 }
