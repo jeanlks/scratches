@@ -286,7 +286,6 @@ public class ScratchProblem {
       return numOfCoins[n] != Integer.MAX_VALUE ? numOfCoins[n]: -1;
     }
 
-
     public static int numberOfWaysToMakeChange(int n, int[] denoms) {
         int[] ways = new int[n + 1];
             ways[0] = 1;
@@ -373,6 +372,7 @@ public class ScratchProblem {
          int[] array = {2,7,5,3};
          quickSort(array);
          System.out.println(Arrays.toString(array));
+         minNumberOfCoinsForChange(4, new int[]{2,1});
         // ArrayList<String> quotes = getHugeListOfQuotes();
         // ArrayList<String> toys = getHugeListOfToys();
         // long startTime = System.currentTimeMillis();

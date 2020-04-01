@@ -24,13 +24,12 @@ public class Bst {
         delete(this.root, val);
     }
 
-
     public Node delete(Node node, int val){
         if(node == null)
             return node;
         if(val > node.val){
-            node.right = delete(node.right, val);
-        } else if( val < node.val){
+            node.right = delete(node.right, val); 
+        } else if(val <  node.val){
             node.left = delete(node.left, val);
         } else { 
             if(node.left == null){
@@ -42,8 +41,9 @@ public class Bst {
                 node.right = delete(node.right, node.val);
             }
         }
+        
         return node;
-    }
+    } 
 
     public void invertTree(){
         this.invertTree(this.root);
@@ -66,10 +66,10 @@ public class Bst {
        return validateBst(this.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    public Boolean validateBst(Node node, int minValue, int maxValue) {
-        if(node.val < minValue || node.val > maxValue ) return false;
-        if(node.left != null && !validateBst(node.left, minValue, node.val))  return false;
-        if(node.right != null && !validateBst(node.right, node.val , maxValue)) return false;
+    public Boolean validateBst(Node node, int min, int max){
+        if(node.val < min || node.val > max) return false;
+        if(node.left != null && !validateBst(node.left, min, node.val)) return false;
+        if(node.left != null && !validateBst(node.left, node.val, max)) return false;
         return true;
     }
 
@@ -112,35 +112,35 @@ public class Bst {
      }
 
      public boolean contains(Node node, int val){
-          if(node == null) return false;
-          if(val < node.val){
-              return contains(node.left, val);
-          } else if(val > node.val) {
-              return contains(node.right, val);
-          } else {
-              return true;
-          }
+        if(node == null) return false;
+        if(val < node.val){
+            return contains(node.left, val);
+        } else if(val > node.val){
+            return contains(node.right, val);
+        } else { 
+            return true;
+        }
      }
 
-     public int getHeight(Node node){
-         if(node == null) return 1;
-         int lHeight = getHeight(node.left);
-         int rHeight = getHeight(node.right);
-         return Math.max(lHeight, rHeight) + 1;
-     }
+    public int getHeight(Node node){
+        if(node == null) return 1;
+        int lHeight = getHeight(node.left);
+        int rHeight = getHeight(node.right);
+        return Math.max(lHeight, rHeight) + 1;
+    }
 
      public void add(int val){
          this.root = this.add(this.root, val);
      }
 
      public Node add(Node node, int val) { 
-        if(node == null){
-            node = new Node(val);
-        }
+        if(node == null)
+            return new Node(val);
         if(val < node.val){
             node.left = add(node.left, val);
-        } else if(val > node.val){
+        } else {
             node.right = add(node.right, val);
+            return node;
         }
         return node;
      }
